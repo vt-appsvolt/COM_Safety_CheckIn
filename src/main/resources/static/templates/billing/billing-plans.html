@@ -1,0 +1,262 @@
+<script id="tempBilling">
+	<div class="container">
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		  <h1 class="display-4">
+		  	Pricing
+		  	<button class="btn btn-default add-new-billing-plan-btn float-right">Add New Billing Plan</button>
+		  </h1>
+		  
+		  <p class="lead">Description of how the customers will be billed.</p>
+		</div>
+		<div class="container">
+			<div class="page-changer" id="billing-plan-pagination"></div>
+		</div>
+		
+		<div id="billing-plans-container" class="row">
+			{{>tempBillingPlanPage}}
+		</div>
+	</div>
+</script>
+
+<script id="tempBillingPlanPage">
+	{{#billingPlans}}
+		{{>tempBillingPlan}}
+	{{/billingPlans}}
+</script>
+
+<script id="tempBillingPlan">
+	<div class="col-6 billing-plan-container" data-id="{{id}}">
+		<div class="card-deck mb-3 text-center">
+		  <div class="card mb-8 shadow-sm">
+		    <div class="card-header">
+		    	<div class="d-flex flex-row">
+				    <div class="col-2"></div>
+				    <div class="col-8">
+					    <h4 class="my-0 font-weight-normal">
+					    	{{planName}} 
+					    </h4>
+				    </div>
+				    <div class="col-2">
+				    	<button class="btn btn-default edit-billing-plan float-right" data-id="{{id}}">Edit</button>
+				    </div>
+				</div>
+		    </div>
+		    <div class="card-body">
+		      <h1 class="card-title pricing-card-title">${{dailyRate}} <small class="text-muted">/ day</small></h1>
+		      <ul class="list-unstyled mt-3 mb-4">
+		      	{{#percentage}}
+		      		<li>{{percentage}}%</li>
+		      	{{/percentage}}
+	      		{{#defaultRate}}
+		      		Default Rate
+		      	{{/defaultRate}}
+		      	{{#allowEarlyRelease}}
+		      		<li>${{earlyRelease}} early release rate</li>	
+		      		<li> < {{earlyReleaseMinuteMaximum}} minutes</li>	
+		      	{{/allowEarlyRelease}}
+		      	{{#allowFullDay}}
+			      	<li>${{fullDay}} full date rate</li>	
+			      	<li> > {{fullDayMinuteMinimum}} minutes</li>	
+		      	{{/allowFullDay}}
+		      	{{#weeklyRate}}
+		      		<li>${{weeklyRate}} weekly rate</li>
+		      	{{/weeklyRate}}
+		      	{{#specializedBillingPlanName}}
+		      		<li>{{.}}</li>
+		      	{{/specializedBillingPlanName}}
+		      </ul>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>
+
+<script id="tempBillingOld">
+	<div class="container">
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		  <h1 class="display-4">Pricing</h1>
+		  <p class="lead">Description of how the customers will be billed.</p>
+		</div>
+		<div class="container">
+			<h4>Current Plan: Plan 1</h4>
+		</div>
+		
+		<div class="container">
+			<div class="custom-control custom-radio" style="line-height: 20px; font-size: 20px;">
+		        <input id="plan1" name="billingPlan" type="radio" class="custom-control-input" required="">
+		        <label class="custom-control-label" for="plan1">Plan 1</label>
+		    </div>
+			<div class="card-deck mb-3 text-center">
+			  <div class="card mb-4 shadow-sm">
+			    <div class="card-header">
+			      <h4 class="my-0 font-weight-normal">Daily</h4>
+			    </div>
+			    <div class="card-body">
+			      <h1 class="card-title pricing-card-title">$12 <small class="text-muted">/ day</small></h1>
+			      <ul class="list-unstyled mt-3 mb-4">
+			        <li>One day rate</li>
+			        <li>Billed in advance</li>
+			        <li></li>
+			      </ul>
+			      <button type="button" class="btn btn-lg btn-block btn-primary invisible">Choose Rate</button>
+			    </div>
+			  </div>
+			  <div class="card mb-4 shadow-sm">
+			    <div class="card-header">
+			      <h4 class="my-0 font-weight-normal">Weekly</h4>
+			    </div>
+			    <div class="card-body">
+			      <h1 class="card-title pricing-card-title">$50 <small class="text-muted">/ week</small></h1>
+			      <ul class="list-unstyled mt-3 mb-4">
+			        <li>Weekly rate</li>
+			        <li>Billed in advance</li>
+			        <li>Charged independent of attendence</li>
+			      </ul>
+			      <button type="button" class="btn btn-lg btn-block btn-primary invisible">Choose Rate</button>
+			    </div>
+			  </div>
+			  
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="custom-control custom-radio" style="line-height: 20px; font-size: 20px;">
+		        <input id="plan2" name="billingPlan" type="radio" class="custom-control-input" required="">
+		        <label class="custom-control-label" for="plan2">Plan 2</label>
+		    </div>
+		<div class="card-deck mb-3 text-center">
+		  <div class="card mb-4 shadow-sm">
+		    <div class="card-header">
+		      <h4 class="my-0 font-weight-normal">Daily</h4>
+		    </div>
+		    <div class="card-body">
+		      <h1 class="card-title pricing-card-title">$18 <small class="text-muted"></small></h1>
+		      <ul class="list-unstyled mt-3 mb-4">
+		        <li>Daily rate</li>
+		        <li>Info amount plan</li>
+		      </ul>
+		      <button type="button" class="btn btn-lg btn-block btn-primary invisible">Choose Rate</button>
+		    </div>
+		  </div>
+		  <div class="card mb-4 shadow-sm">
+		    <div class="card-header">
+		      <h4 class="my-0 font-weight-normal">2-3 Days</h4>
+		    </div>
+		    <div class="card-body">
+		      <h1 class="card-title pricing-card-title">$36 <small class="text-muted"></small></h1>
+		      <ul class="list-unstyled mt-3 mb-4">
+		        <li>Rate for 2-3 days</li>
+		        <li>Info amount plan</li>
+		      </ul>
+		      <button type="button" class="btn btn-lg btn-block btn-primary invisible">Choose Rate</button>
+		    </div>
+		  </div>
+		  <div class="card mb-4 shadow-sm">
+		    <div class="card-header">
+		      <h4 class="my-0 font-weight-normal">4-5 Days</h4>
+		    </div>
+		    <div class="card-body">
+		      <h1 class="card-title pricing-card-title">$50 <small class="text-muted"></small></h1>
+		      <ul class="list-unstyled mt-3 mb-4">
+		        <li>Rate for 4-5 days</li>
+		        <li>Info amount plan</li>
+		      </ul>
+		      <button type="button" class="btn btn-lg btn-block btn-primary invisible">Choose Rate</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+	</div>
+</script>
+
+<script id="tempEditBillingPlan">
+	<section class="wrapper">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6 bg-white rounded shadow-sm p-3">
+				<h4 class="mb-3">
+					{{#id}}
+						Edit Billing Plan
+					{{/id}}
+					{{^id}}
+						Create Billing Plan
+					{{/id}}
+					{{#showBack}}
+						<button id="edit-billing-plan-back" class="float-right btn btn-default">Back</button>
+					{{/showBack}}
+				</h4>
+				<form id="billing-plan-form" onsubmit="return false;" data-id="{{formId}}">
+					<div class="form-group">
+						<label for="planName{{formId}}">Plan Name</label>
+						<input type="text" class="form-control" name="planName" id="planName{{formId}}" aria-describedby="plan name" placeholder="Plan Name" value="{{planName}}"> 
+					</div>
+					<div class="form-group">
+						<label for="percentage{{formId}}">Percentage</label>
+						<input type="text" class="form-control" name="percentage" id="percentage{{formId}}" aria-describedby="percentage" placeholder="Percentage" value="{{percentage}}"> 
+					</div>
+					<div class="form-group">
+						<label for="dailyRate{{formId}}">Daily Rate</label>
+						<input type="text" class="form-control" name="dailyRate" id="dailyRate{{formId}}" aria-describedby="dailyRate" placeholder="Daily Rate" value="{{dailyRate}}"> 
+					</div>
+					<div class="col-12" style="padding:0px;">
+						<label for="allowEarlyRelease{{formId}}">Charge Early Release</label>
+					</div>
+					<div class="col-12" style="padding:0px 0px 15px 0px;">
+						<input id="allowEarlyRelease{{formId}}" type="checkbox" name="allowEarlyRelease" value="true" class="bs-toggle allowEarlyRelease"  {{#allowEarlyRelease}}checked{{/allowEarlyRelease}} data-toggle="toggle" data-on="On" data-off="Off" data-size="small" data-onstyle="primary" data-offstyle="default">
+					</div>
+					<div class="form-group">
+						<label for="grade{{formId}}">Early Release Rate</label>
+						<input type="text" class="form-control" name="earlyRelease" id="earlyRelease{{formId}}" aria-describedby="earlyRelease" placeholder="Early Release Rate" value="{{earlyRelease}}"> 
+					</div>
+					<div class="form-group">
+						<label for="earlyReleaseMinuteMaximum{{formId}}">Early Release Maximum (Minutes)</label>
+						<input type="text" class="form-control" name="earlyReleaseMinuteMaximum" id="earlyReleaseMinuteMaximum{{formId}}" aria-describedby="early release minute maximum" placeholder="Early Release Maximum" value="{{earlyReleaseMinuteMaximum}}"> 
+					</div>
+					<div class="col-12" style="padding:0px;">
+						<label for="allowFullDay{{formId}}">Charge Full Day</label>
+					</div>
+					<div class="col-12" style="padding:0px 0px 15px 0px;">
+						<input id="allowFullDay{{formId}}" type="checkbox" name="allowFullDay" value="true" class="bs-toggle allowFullDay"  {{#allowFullDay}}checked{{/allowFullDay}} data-toggle="toggle" data-on="On" data-off="Off" data-size="small" data-onstyle="primary" data-offstyle="default">
+					</div>
+					<div class="form-group">
+						<label for="fullDay{{formId}}">Full Day Rate</label>
+						<input type="text" class="form-control" name="fullDay" id="fullDay{{formId}}" aria-describedby="fullDay" placeholder="Full Day Rate" value="{{fullDay}}"> 
+					</div>
+					<div class="form-group">
+						<label for="fullDayMinuteMinimum{{formId}}">Full Day Minimum (Minutes)</label>
+						<input type="text" class="form-control" name="fullDayMinuteMinimum" id="fullDayMinuteMinimum{{formId}}" aria-describedby="full day minute minimum" placeholder="Full Day Minimum" value="{{fullDayMinuteMinimum}}"> 
+					</div>
+					<div class="form-group">
+						<label for="weeklyRate{{formId}}">Weekly Rate</label>
+						<input type="text" class="form-control" name="weeklyRate" id="weeklyRate{{formId}}" aria-describedby="weeklyRate" placeholder="Weekly Rate" value="{{weeklyRate}}"> 
+					</div>
+					<div class="form-group">
+						<label for="specializedBillingPlan{{formId}}">Specialized Plan</label>
+						<select name="specializedBillingPlan" id="specializedBillingPlan{{formId}}" class="form-control">
+							{{#specializedBillingPlanOptions}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/specializedBillingPlanOptions}}
+						</select>
+					
+					</div>
+					
+					
+					<div class="form-check-inline">
+						<input class="form-check-input" type="checkbox" name="defaultRate" value="true" id="defaultRate{{formId}}" {{#defaultRate}}checked{{/defaultRate}}>
+					 	<label class="form-check-label" for="defaultRate{{formId}}" >Default Rate</label>
+					</div>
+					
+					<input type="hidden" name="id" value="{{id}}"/>
+				</form>	
+			</div>
+		</div>
+		<div class="row justify-content-center" style="padding-top:5px;">
+			<div class="col-md-8 col-lg-6 bg-white rounded shadow-sm p-3">
+				{{#showDelete}}
+					<button id="delete-billing-plan" class="btn btn-danger float-left" data-id="{{id}}">Delete</button>
+				{{/showDelete}}
+				<button id="submit-billing-plan" class="btn btn-primary float-right">Submit</button>
+			</div>
+		</div>
+	</section>
+</script>

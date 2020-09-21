@@ -1,0 +1,248 @@
+<script id="tempBillingLedgerModal">
+	<div class="modal" id="billingLedgerModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-xl" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		    	<div class="col-xs-6">
+		      		<h5 class="modal-title">Student Billing Ledger</h5>
+		      	</div>
+		      	<div class="col-xs-6">
+			      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <span aria-hidden="true">&times;</span>
+			      </button>
+			      <a id="print-ledger" class="float-right" style="padding: 7px;"><i class="fas fa-print"></i> Print</a>
+		      	</div>
+		      
+		    </div>
+		    <div class="container p-0">
+			    <div class="col-xs-12">
+					<a id="add-transation-btn" class="float-right"><i class="fas fa-plus"></i> Add Transaction</a>
+				</div>
+				<div class="new-charge-wrap col-xs-12 p-0">
+				
+				</div>
+		    </div>
+		    <div class="container student-ledger-modal-filters p-0">
+			    <div class="col-xs-6 col-md-6 col-lg-3">
+					<label>Family Filter:</label>
+					<select name="familyFilter" data-filter="familyFilter" class="form-control form-control-sm billing-ledger-modal-filter billing-ledger-date search-on-change">
+						<option value="All">Family</option>
+						{{#studentOptions}}
+							<option value="{{studentId}}">{{name}}</option>
+						{{/studentOptions}}
+					</select>
+				</div>
+				<div class="col-xs-6 col-md-6 col-lg-3">
+					<label>Trx Type:</label>
+					<select name="transactionType" data-filter="transactionType" class="form-control form-control-sm billing-ledger-modal-filter billing-ledger-date search-on-change">
+						<option value="All">All</option>
+						<option value="Payment">Payment</option>
+						<option value="Credit">Credit</option>
+						<option value="Refund">Refund</option>
+						<option value="Charge">Charge</option>
+					</select>
+				</div>
+			    <div class="col-xs-6 col-md-6 col-lg-3">
+					<label>From Date:</label>
+					<input type="text" class="form-control form-control-sm billing-ledger-modal-filter billing-ledger-date search-on-change" data-filter="startDate" placeholder="" aria-controls="datatables-basic" value="{{formattedStartDate}}">
+				</div>
+				<div class="col-xs-6 col-md-6 col-lg-3">
+					<label>To Date:</label>
+					<input type="text" class="form-control form-control-sm billing-ledger-modal-filter billing-ledger-date search-on-change" data-filter="endDate" placeholder="" aria-controls="datatables-basic" value="{{formattedEndDate}}">
+				</div>
+		    </div>
+		    
+		    <div class="modal-body">
+		    	<div class="container-fluid px-0">
+		    		<div class="vpo">
+		    			
+		    		</div>
+		    		<div id="student-ledger-modal-totals" class="col-xs-6 pl-0">
+			    		{{>tempLedgerTotals}}
+		    		</div>
+	    		</div>
+		    	<div class="container-fluid px-0 ">
+			    	<div class="row dnp">
+						<div class="col-sm-12 col-md-7">
+							<div class="page-changer" id="billing-ledger-modal-pagination" style="display: none;"></div>
+						</div>
+						<div class="col-sm-12 col-md-5">
+							<label>Result Size </label>
+							<select class="custom-select custom-select-sm form-control form-control-sm billing-ledger-modal-filter search-on-change" data-filter="size">
+								{{#pageSizeOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/pageSizeOptions}}
+							</select>
+						</div>
+					</div>
+			    	<table id="student-billing-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+						<thead>
+							<tr role="row">
+								<th>Type</th>
+								<th>Description</th>
+								<th>Student</th>
+								<th>Amount</th>
+								<th>Date</th>
+								<th>Auth</th>
+								{{#allowDelete}}
+									<th class="d-print-none">Edit/Delete</th>
+								{{/allowDelete}}
+							</tr>
+						</thead>
+						<tbody>	
+		    				{{>tempLedgerTableBody}}
+						</tbody>
+					</table>
+		    	</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>
+
+<script id="tempLedgerTotals">
+	{{#hasFamilyAccount}}
+		<p>	
+			<b>Family Balance: </b> ${{familyBalance}} 
+			{{#studentBillingAccounts}}
+				</br> 
+				<b> {{student.firstName}} {{student.lastName}} Balance</b> ${{balance}}
+			{{/studentBillingAccounts}}
+		</p>
+	{{/hasFamilyAccount}}
+	{{^hasFamilyAccount}}
+		<p> <b>{{student.firstName}} {{student.lastName}} Balance: </b> ${{studentBalance}} </p>
+	{{/hasFamilyAccount}}
+</script>
+
+<script id="tempLedgerTableBody">
+	{{#transactions}}
+		{{>tempLedgerTableRow}}
+	{{/transactions}}
+</script>
+
+<script id="tempLedgerTableRow">
+	<tr role="row" class="odd billing-ledger-row" data-id="{{id}}" data-description="{{description}}" data-amount="{{amount}}" data-trxtype="{{type}}" data-paymentmethod="{{paymentMethodType}}">
+		<td>{{type}}</td>
+		<td>{{description}}</td>
+		<td>{{studentName}}</td>
+		<td>${{amount}}</td>
+		<td>{{formattedDate}}</td>
+		<td>{{authorization}}</td>
+		{{#allowDelete}}
+			<td>
+				<a class="billing-ledger-edit d-print-none" data-id="{{id}}" style="margin-right: 10px;"> <i class="far fa-edit"></i></a>
+				<a class="billing-ledger-remove d-print-none" data-id="{{id}}"> <i class="fas fa-trash-alt"></i></a>
+			</td>
+		{{/allowDelete}}
+		<!-- <td><a class="billing-ledger-edit" data-id="{{id}}"> <i class="fas fa-user-edit"></i></a></td> -->
+	</tr>
+</script>
+
+<script id="tempAddRecord">
+	<div class="add-record col-xs-12 px-0">
+		<div class="container col-xs-12 p-0">
+			<form>
+				<div class="container col-xs-12 p-0">
+					<div class="form-group col-xs-12 col-sm-6 ">
+						<label for="transactionType">Post to Account</label>
+						<select name="studentId" class="form-control">
+							{{#students}}
+								<option value="{{studentId}}" {{selected}}>{{name}}</option>
+							{{/students}}
+						</select>
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="transactionType">Type</label>
+						<select name="type" class="form-control transaction-type">
+							<option value="Payment">Payment</option>
+							<option value="Credit">Credit</option>
+							<option value="Refund">Refund</option>
+							<option value="Charge">Charge (adds to balance)</option>
+						</select>
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="amountPaid">Amount</label>
+						<input type="text" class="form-control" name="amountPaid" aria-describedby="first name" > 
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="lastFour">Authorization</label>
+						<input type="text" class="form-control" name="authorization" placeholder="Authorization Code" > 
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="date">Date</label>
+						<input name="paymentLocalDate" type="text" class="form-control payment-ledger-date" value="">
+					</div>
+					<div class="form-group col-xs-12 col-sm-6 payment-method-type-wrap">
+						<label for="paymentMethodType">Payment Type</label>
+						<select name="paymentMethodType" class="form-control payment-method-type">
+							<option value="CreditCard">Credit Card</option>
+							<option value="Ach">Ach</option>
+							<option value="Check">Check</option>
+							<option value="Cash">Cash</option>
+						</select>
+					</div>
+				</div>
+				<div class="container col-xs-12 p-0">
+					<div class="form-group col-xs-12">
+						<label for="description">Description</label>
+						<input type="text" class="form-control" name="description" placeholder="Payment Description" > 
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<div class="col-xs-12 py-0 text-right">
+			<button type="button" class="cancel-billing-btn btn btn-default">Cancel</button>
+			<button type="button" class="save-billing-btn btn btn-primary">Post To Account</button>
+		</div>
+	</div>
+
+</script>
+
+<script id="tempEditLedgerRow">
+<tr class="edit-ledger-row" data-id="{{ledgerId}}" >
+	<form class="edit-ledger-form">
+	
+		{{#showMethodType}}
+			<td colspan="2">
+				<div class="form-group col-xs-12">
+					<label for="description">Description</label>
+					<input type="text" class="form-control description" name="description" placeholder="Payment Description" value="{{description}}"> 
+				</div>
+			</td>
+		{{/showMethodType}}
+		{{^showMethodType}}
+			<td colspan="4">
+				<div class="form-group col-xs-12">
+					<label for="description">Description</label>
+					<input type="text" class="form-control description" name="description" placeholder="Payment Description" value="{{description}}"> 
+				</div>
+			</td>
+		{{/showMethodType}}
+		
+		<td colspan="2">
+			<div class="form-group col-xs-12">
+				<label for="description">Amount</label>
+				<input type="text" class="form-control amount" name="amount" placeholder="Payment Amount" value="{{amount}}"> 
+			</div>
+		</td>
+		{{#showMethodType}}
+			<td colspan="2">
+				<div class="form-group col-xs-12">
+					<label for="paymentMethodType">Pymt Type</label>
+					<select name="paymentMethodType" class="form-control payment-method-type">
+						{{#paymentMethodOptions}}
+							<option value="{{val}}" {{selected}}>{{name}}</option>
+						{{/paymentMethodOptions}}
+					</select>
+				</div>
+			</td>
+		{{/showMethodType}}
+		<td>
+			<button class="btn btn-danger btn-cancel-edit-ledger" data-id="{{ledgerId}}">Cancel</button>
+			<button class="btn btn-success btn-confirm-edit-ledger" data-id="{{ledgerId}}">Confirm</button>
+		</td>
+	</form>
+</tr>
+</script>

@@ -1,0 +1,83 @@
+
+
+<!-- Pagination Templates -->
+<script id="tempChevron" type="text/html">
+	{{#hasPrev}}
+		<i class="fa fa-chevron-left fa-lg pagination-arrow pageroo" style"padding:0 7px;" data-page="{{prev}}"></i>
+	{{/hasPrev}}
+	{{^hasPrev}}
+		<i class="fa fa-chevron-left fa-lg pagination-arrow pageroo disabled" style"padding:0 7px;" data-page="{{prev}}"></i>
+	{{/hasPrev}}
+	<div style="display:inline-block; padding:0 7px;">
+        <input class="chevron-jump-to jump-to" type="number" value="{{page}}" data-max="{{max}}" min="1" max="{{max}}"/> of {{max}}
+    </div>
+	{{#hasNext}}
+		<i class="fa fa-chevron-right fa-lg pagination-arrow pageroo" style="padding:0 7px;" data-page="{{next}}"></i>
+	{{/hasNext}}
+	{{^hasNext}}
+		<i class="fa fa-chevron-right fa-lg pagination-arrow pageroo disabled" style="padding:0 7px;" data-page="{{next}}"></i>
+	{{/hasNext}}
+</script>
+
+
+<script id="tempChevronSpans" type="text/html">
+    	 {{#hasPrev}}
+			<i class="fa fa-chevron-left pagination-arrow pageroo" style="padding-top:5px;" data-page="{{prev}}"></i>
+         {{/hasPrev}}
+		 {{^hasPrev}}
+			<i class="fa fa-chevron-left pagination-arrow pageroo disabled" style="padding-top:5px;" data-page="{{prev}}"></i>
+		 {{/hasPrev}}
+			 <input type="number" class="form-control jump-to" value="{{page}}" data-max="{{max}}" min="1" max="{{max}}"/>
+        	 <span style="display:inline-block; padding:0 4px;">of</span>
+        	 <span style="display:inline-block; width:40px; text-align:center;">{{max}}</span>
+        {{#hasNext}} 
+			<i class="fa fa-chevron-right pagination-arrow pageroo" data-page="{{next}}"></i>
+		{{/hasNext}}
+		{{^hasNext}}
+			<i class="fa fa-chevron-right pagination-arrow pageroo disabled" data-page="{{next}}"></i>
+		{{/hasNext}}
+</script>
+
+
+<!--  Loading Templates -->
+<script id="tempLoadingDiv" type="text/html">
+	<div class="col-xs-12 sm-padding">
+		<i class="fa fa-spinner fa-spin"></i> Loading {{loadingText}}
+	</div>
+</script>
+
+<script id="tempVideo" type="text/html">
+	<video id="{{id}}" class="img-responsive" controls="true" poster="{{posterURL}}">
+		{{#sources}}
+			<source src="{{src}}" type="{{type}}" />
+		{{/sources}}
+		{{fallback}}
+	</video>
+</script>
+
+<script id="tempDTab" type="text/html">
+	{{#tabs}}
+		<div class="d-tab {{style}} {{active}}" data-fn="{{fn}}">
+			{{name}}
+		</div>
+	{{/tabs}}
+</script>
+
+
+<script id="tempPrintDocument" type="application/mustache">
+	<!DOCTYPE html>
+		<head>
+			<title>{{windowTitle}}</title>
+			{{#linkTags}}
+				<link rel="{{rel}}" href="{{href}}" />
+			{{/linkTags}}
+		</head>
+		<body>
+		<div id="print-body" class="col-xs-12">
+			<div class="col-xs-12 lg-padding text-center">
+				<h4><i class="fa fa-spinner fa-spin"></i> Loading Printable Page</h4>
+			</div>
+		</div>
+		</body>
+	</html>
+</script>

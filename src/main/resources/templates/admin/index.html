@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/plugin/bootstrap-theme.css}" > 
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style-responsive.css}" />
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script th:src="@{/js/dist/lib/jquery-ui.min.js}"></script>
+	<script th:src="@{/js/dist/lib/external-libs.min.js}"></script>
+    <script th:src="@{/js/dist/checkin.min.js}"></script>
+   
+
+	<meta name="_csrf_parameter" content="${_csrf.parameterName}">
+	<meta name="_csrf_header" content="X-CSRF-TOKEN">
+	<meta name="_csrf" content="${_csrf.token}">
+</head>
+
+<body>
+<section id="container">
+<nav class="navbar navbar-dark bg-dark navbar-expand-md fixed-top">
+	   <a class="navbar-brand" href="#" style="padding:0px;">
+	   	<img th:src="@{/images/logo.jpg}" width="30" height="30" />
+	   </a>
+	   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		  <div class="navbar-nav-scroll">
+		    <ul class="navbar-nav bd-navbar-nav flex-row">
+		      <li class="nav-item">
+			     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+			  </li>
+			 </ul>
+		  </div>  
+	  </div>
+	  <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+    	<li class="nav-item text-white">
+    		<i class="active-header-count fas fa-users fa-lg"><span></span></i>
+    	</li>
+      </ul>
+</nav>
+	
+    <div id="sidebar" class="nav-collapse " tabindex="5000" style="overflow: hidden; outline: none;">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu">
+          <li class="tab-view active" data-view="active-students" >
+            <a>Active Students</a>
+          </li>
+          <li class="tab-view" data-view="add-student">
+            <a>Add Student</a>
+          </li>
+          <li class="tab-view" data-view="students">
+          	<a>Students</a>
+          </li>
+          <li class="tab-view" data-view="create-program">
+          	<a>Create Program</a>
+          </li>
+          <!-- <li class="tab-view" data-view="checkin-students" >
+            <a>Check In Student</a>
+          </li> -->
+		  
+        </ul>
+        <!-- sidebar menu end-->
+      </div>
+      
+      
+      
+    <section id="main-content">
+    </section>
+	<section id="alert-wrapper">
+		<section class="wrapper"></section>
+	</section>
+
+</section>
+<script th:inline="javascript">
+	$(function() {
+		loadTab = function( tab ){
+			switch(tab){
+				case 'add-student':
+					ModuleRegistry.getModule('TemplateRegistry')
+					.getModule('StudentResolver')
+		    		.getFn('loadNewStudentForm', [$('#main-content')]);
+					break;
+				case 'checkin-students':
+					ModuleRegistry.getModule('TemplateRegistry')
+					.getModule('CheckinResolver')
+		    		.getFn('loadCheckinForm', [$('#main-content')]);
+					break;
+				case 'students':
+					ModuleRegistry.getModule('TemplateRegistry')
+					.getModule('StudentResolver')
+		    		.getFn('loadStudents', [$('#main-content')]);
+					break;
+				case 'create-program':
+					ModuleRegistry.getModule('TemplateRegistry')
+					.getModule('ProgramResolver')
+		    		.getFn('loadProgramForm', [$('#main-content')]);
+					break;
+				case 'active-students':
+				default:
+					tab='active-students';
+					ModuleRegistry.getModule('TemplateRegistry')
+					.getModule('CheckinResolver')
+		    		.getFn('loadActiveStudents', [$('#main-content')]);
+					break;
+			}
+			var url = [[@{/checkin}]]+'?view='+tab;
+	    	window.history.pushState("Service","Service", url);
+	    	activateTab(tab);
+		}
+		activateTab = function(tab){
+			$('.tab-view.active').removeClass('active');
+			$('.tab-view[data-view='+tab+']').addClass('active');
+		}
+		
+		
+		$('.tab-view').click(function(){
+			loadTab( $(this).data('view') );
+		});
+		
+		
+		<!-- On load  -->
+		window.TemplateRegistry['CheckinResolver'].fns('activeStudentPoll');
+		/* ModuleRegistry.getModule('TemplateRegistry')
+		.getModule('CheckinResolver')
+		.getFn('activeStudentPoll' ); */
+		loadTab(/*[[${view}]]*/ 'students');
+		
+	});
+
+</script>
+</body>
+</html>

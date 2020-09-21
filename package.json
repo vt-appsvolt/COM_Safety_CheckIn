@@ -1,0 +1,71 @@
+{
+  "name": "safetycheckin",
+  "author": "Safety Check-In",
+  "version": "0.1.0",
+  "system": {
+    "basePath": "src/main/resources/static/",
+    "js": {
+      "path": "js/",
+      "suffix": ".js",
+      "distPath": "dist/",
+      "files": [
+        {
+          "name": "external-libs",
+          "location": [
+            "lib/*",
+            "lib/extensions/*"
+          ],
+          "outputPath": "lib/",
+          "jsHint": false
+        },
+        {
+          "name": "checkin",
+          "location": [
+            "src/config/*",
+            "src/app-authentication",
+            "src/app-prototypes",
+            "src/app-utilities",
+            "src/app",
+            "src/utilities/**/*",
+            "src/plugins/**/*",
+            "src/models/**/*",
+            "src/controllers/**/*",
+            "src/components/**/*"
+          ],
+          "jsHint": true
+        }
+      ]
+    }
+  },
+  "jshintConfig": {
+    "core": {
+      "jQuery": true,
+      "console": true,
+      "module": true,
+      "document": true
+    },
+    "test": {
+      "devel": true,
+      "es3": false,
+      "qunit": true
+    }
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-contrib-qunit": "^1.2.0",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-install-dependencies": "^0.2.0",
+    "grunt-mustache": "^0.2.1"
+  },
+  "dependencies": {
+    "mustache": "^2.3.0"
+  },
+  "scripts": {
+    "grunt": "grunt",
+    "watch": "grunt watch"
+  }
+}

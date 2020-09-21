@@ -1,0 +1,483 @@
+<script id="tempBilling">
+	<section class="wrapper">
+		<div class="col-12" id="student-billing-print-wrap">
+			<div class="card">
+				<div class="card-header">	
+					<div class="col-xs-6">
+						<h5 class="card-title">Student Billing</h5>
+						<h6 class="card-subtitle text-muted">Student Billing.</h6>
+					</div>
+					<div class="col-xs-6">
+						<a id="print-student-billing" class="float-right d-print-none"><i class="fas fa-print"></i> Print</a>
+					</div>
+				</div>
+				<div class="card-body">
+					<div id="datatables-basic_wrapper" class="dataTables_wrapper dt-bootstrap4">
+						<div class="row d-print-none">
+							<div class="col-sm-6 col-md-6 col-lg-3">
+								<label>Result Size </label>
+								<select class="custom-select custom-select-sm form-control form-control-sm student-billing-filter" data-filter="size">
+									{{#pageSizeOptions}}
+										<option value="{{val}}" {{selected}}>{{name}}</option>
+									{{/pageSizeOptions}}
+								</select>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-3">
+								<label>Week Of</label>
+								<select class="custom-select custom-select-sm form-control form-control-sm student-billing-filter" data-filter="weekOf">
+									{{#weeklyOptions}}
+										<option value="{{val}}" {{selected}}>{{name}}</option>
+									{{/weeklyOptions}}
+								</select>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-3">
+								<label>Sort by</label>
+								<select class="custom-select custom-select-sm form-control form-control-sm student-billing-filter" data-filter="studentSort">
+									<option value="">Sort by</option>
+									{{#studentSortOptions}}
+										<option value="{{val}}" {{selected}}>{{name}}</option>
+									{{/studentSortOptions}}
+								</select>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-3">
+								<label>Search</label>
+								<input type="text" class="form-control form-control-sm student-filter type-to-filter student-billing-filter" data-filter="search" placeholder=""/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<table id="student-billing-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+									<thead>
+										<tr role="row">
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Student Id</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">School</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Grade</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">M</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">T</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">W</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Th</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">F</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">S</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Su</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Weekly Charge</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Outstanding Balance</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Balance Due</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Payment Status</th>
+											<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending" class="d-print-none">Edit</th>
+										</tr>
+									</thead>
+									<tbody>
+										{{>tempStudentBillingPage}}
+									</tbody>
+									<tfoot class="d-print-none">
+										<tr>
+											<th>Name</th>
+											<th>Student Id</th>
+											<th>School</th>
+											<th>Grade</th>
+											<th>M</th>
+											<th>T</th>
+											<th>W</th>
+											<th>Th</th>
+											<th>F</th>
+											<th>S</th>
+											<th>Su</th>
+											<th>Weekly Charge</th>
+											<th>Outstanding Balance</th>
+											<th>Balance Due</th>
+											<th>Payment Status</th>
+											<th>Edit</th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-5">
+						</div>
+						<div class="col-sm-12 col-md-7">
+							<div class="page-changer d-print-none" id="students-billing-pagination" style="display: none;"></div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+				
+	</section>
+</script>
+
+
+<script id="tempStudentBillingPage">
+	{{#studentBillings}}
+		{{>tempStudentBillingRow}}
+	{{/studentBillings}}
+</script>
+
+<script id="tempStudentBillingRow">
+	<tr role="row" class="odd student-billing-row" data-id="{{student.id}}">
+		<td class="" tabindex="0">
+			<a class="student-ledger" data-id="{{student.id}}"><i class="fas fa-receipt"></i></a> 
+			{{student.firstName}} {{student.lastName}}
+			<!-- <a class="student-checkin-ledger" data-id="{{student.id}}"><i class="fas fa-stopwatch"></i></a> -->
+		</td>
+		<td>
+			<a class="student-checkin-ledger" data-id="{{student.id}}"><i class="fas fa-stopwatch"></i></a>
+			{{student.studentId}}
+		</td>
+		<td>{{student.schoolName}}</td>
+		<td>{{student.grade}}</td>
+		
+		<td class="monday-attendance">
+			{{#isMondayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{mondayAttendaceType}}
+			{{/isMondayAttendace}}
+			{{^isMondayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isMondayAttendace}}	
+		</td>
+		<td class="tuesday-attendance">
+			{{#isTuesdayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{tuesdayAttendaceType}}
+			{{/isTuesdayAttendace}}
+			{{^isTuesdayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isTuesdayAttendace}}	
+		</td>
+		<td class="wednesday-attendance">
+			{{#isWednesdayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{wednesdayAttendaceType}}
+			{{/isWednesdayAttendace}}
+			{{^isWednesdayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isWednesdayAttendace}}	
+		</td>
+		<td class="thursday-attendance">
+			{{#isThursdayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{thursdayAttendaceType}}
+			{{/isThursdayAttendace}}
+			{{^isThursdayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isThursdayAttendace}}	
+		</td>
+		<td class="friday-attendance">
+			{{#isFridayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{fridayAttendaceType}}
+			{{/isFridayAttendace}}
+			{{^isFridayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isFridayAttendace}}	
+		</td>
+		<td class="saturday-attendance">
+			{{#isSaturdayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{saturdayAttendaceType}}
+			{{/isSaturdayAttendace}}
+			{{^isSaturdayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isSaturdayAttendace}}	
+		</td>
+		<td class="sunday-attendance">
+			{{#isSundayAttendace}}
+				<i class="far fa-check-square"></i><br/>
+				{{sundayAttendaceType}}
+			{{/isSundayAttendace}}
+			{{^isSundayAttendace}}
+				<i class="far fa-square"></i>
+			{{/isSundayAttendace}}	
+		</td>
+		<td>${{weeklyCharge}}</td>
+		<td>${{priorBalance}}</td>
+		<td>${{studentBalance}}</td>
+		<td>{{formattedPaymentStatus}}</td>
+		<td class="d-print-none">
+			<a class="user-billing-edit" data-id="{{student.id}}"> <i class="fas fa-user-edit"></i></a>
+		</td>
+	</tr>
+</script>
+
+
+<script id="tempBillingOrig">
+	<section class="wrapper">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<h5 class="card-title">Student Billing</h5>
+				<h6 class="card-subtitle text-muted">Student Billing.</h6>
+			</div>
+			<div class="card-body">
+				<div id="datatables-basic_wrapper" class="dataTables_wrapper dt-bootstrap4">
+					<div class="row">
+						<div class="col-sm-12 col-md-6">
+							<div class="dataTables_length" id="datatables-basic_length">
+								<label>Show 
+									<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm student-filter student-filter-activated" data-filter="size">
+										<option value="10">10</option>
+										<option value="25">25</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select> entries
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-6">
+							<div id="datatables-basic_filter" class="dataTables_filter">
+								<label>Search:<input type="text" class="form-control form-control-sm student-filter type-to-filter student-filter-activated" data-filter="search" placeholder="" aria-controls="datatables-basic"></label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<table id="student-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+								<thead>
+									<tr role="row">
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Student Id</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">School</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Grade</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">M</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">T</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">W</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Th</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">F</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">S</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Su</th>
+										
+										
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Weekly Charge</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Outstanding Balance</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Balance Due</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Payment Status</th>
+										
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Salary: activate to sort column ascending">Edit</th>
+									</tr>
+								</thead>
+								<tbody>
+				
+				<tr role="row" class="odd bg-orange">
+				<td class="" tabindex="0"><i class="fas fa-exclamation-triangle"></i> Nicholas J Anagnostou</td>
+				<td>1234</td>
+				<td></td>
+				<td>1</td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				
+				<td>$50</td>
+				<td>$0</td>
+				<td>$50</td>
+				<td>Outstanding</td>
+				
+				<td><a class="user-edit" data-id="12"> <i class="fas fa-user-edit"></i></a></td>
+				</tr>
+				
+				<tr role="row" class="odd">
+				<td class="" tabindex="0"></td>
+				<td>2425</td>
+				<td></td>
+				<td>6</td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				
+				<td>$12</td>
+				<td>$0</td>
+				<td>$0</td>
+				<td>Paid</td>
+				
+				
+				<td><a class="user-edit" data-id="16"> <i class="fas fa-user-edit"></i></a></td>
+				</tr>
+				
+				<tr role="row" class="odd">
+				<td class="" tabindex="0">Hunter  Williams</td>
+				<td>304222</td>
+				<td></td>
+				<td>4</td>
+				
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				
+				<td>$12</td>
+				<td>$0</td>
+				<td>$0</td>
+				<td>Paid</td>
+				
+				<td><a class="user-edit" data-id="19"> <i class="fas fa-user-edit"></i></a></td>
+				</tr>
+				
+				<tr role="row" class="odd">
+					<td class="" tabindex="0">Logan  Fitzgerald</td>
+					<td>345094</td>
+					<td></td>
+					<td>1</td>
+					
+					<td><i class="far fa-square"></i></td>
+					<td><i class="far fa-check-square"></i></td>
+					<td><i class="far fa-square"></i></td>
+					<td><i class="far fa-square"></i></td>
+					<td><i class="far fa-square"></i></td>
+					<td><i class="far fa-square"></i></td>
+					<td><i class="far fa-square"></i></td>
+					
+					<td>$12</td>
+					<td>$0</td>
+					<td>$0</td>
+					<td>Paid</td>
+					
+					<td>
+						<a class="user-edit" data-id="20"> <i class="fas fa-user-edit"></i></a>
+					</td>
+				</tr>
+				
+				<tr role="row" class="odd">
+				<td class="" tabindex="0">Richard  Qian</td>
+				<td>332954</td>
+				<td></td>
+				<td>3</td>
+				
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-check-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				<td><i class="far fa-square"></i></td>
+				
+				<td>$12</td>
+				<td>$0</td>
+				<td>$0</td>
+				<td>Paid</td>
+				
+				<td><a class="user-edit" data-id="31"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<th>Name</th>
+										<th>Student Id</th>
+										<th>School</th>
+										<th>Grade</th>
+										<th>M</th>
+										<th>T</th>
+										<th>W</th>
+										<th>Th</th>
+										<th>F</th>
+										<th>S</th>
+										<th>Su</th>
+										
+										<th>Weekly Charge</th>
+										<th>Outstanding Balance</th>
+										<th>Balance Due</th>
+										<th>Payment Status</th>
+										
+										<th>Edit</th>
+										
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				<!-- <div class="row">
+					<div class="col-sm-12 col-md-5">
+						<div class="dataTables_info" id="datatables-basic_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+					</div>
+					<div class="col-sm-12 col-md-7">
+						<div class="dataTables_paginate paging_simple_numbers" id="datatables-basic_paginate">
+							<ul class="pagination">
+								<li class="paginate_button page-item previous disabled" id="datatables-basic_previous">
+									<a href="#" aria-controls="datatables-basic" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+								</li>
+								<li class="paginate_button page-item active">
+									<a href="#" aria-controls="datatables-basic" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+								</li>
+								<li class="paginate_button page-item ">
+									<a href="#" aria-controls="datatables-basic" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+								</li>
+								<li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="datatables-basic_next"><a href="#" aria-controls="datatables-basic" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+							</ul>
+						</div>
+					</div>
+				</div> -->
+				<div class="row">
+					<div class="col-sm-12 col-md-5">
+					</div>
+					<div class="col-sm-12 col-md-7">
+						<div class="page-changer" id="students-pagination" style="display: none;"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</section>
+</script>
+
+
+<script id="tempBillingRecordModal">
+	<div class="modal" id="billingRecordModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <h5 class="modal-title">Student Billing Record</h5>
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="modal-body">
+		    	<form>
+		    		<div class="container col-xs-12 p-0">
+			    		<input type="hidden" name="studentId" value="{{studentId}}" />
+				    	<div class="form-group">
+				    		<label for="transactionType">Type</label>
+				    		<select name="type" id="transactionType" class="form-control">
+				    			<option value="Payment">Payment</option>
+				    			<option value="Credit">Credit</option>
+				    			<option value="Refund">Refund</option>
+				    			<option value="Charge">Charge (adds to balance)</option>
+				    		</select>
+				    	</div>
+			    		<div class="form-group">
+							<label for="amountPaid">Amount</label>
+							<input type="text" class="form-control" name="amountPaid" aria-describedby="first name" > 
+						</div>
+						<div class="form-group">
+							<label for="lastFour">Authorization</label>
+							<input type="text" class="form-control" name="authorization" placeholder="Authorization Code" > 
+						</div>
+					</div>
+					<div class="container col-xs-12 p-0">
+						<div class="form-group col-xs-12">
+							<label for="description">Description</label>
+							<input type="text" class="form-control" name="description" placeholder="Payment Description" > 
+						</div>
+					</div>
+		      	</form>
+		    </div>
+		    <div class="modal-footer">
+		   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      	<button id="save-billing-btn" type="button" class="btn btn-primary">Post To Account</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>

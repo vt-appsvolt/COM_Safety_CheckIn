@@ -1,0 +1,174 @@
+<script id="tempStudents">
+	<section class="wrapper">
+	<div class="col-12 px-0 px-3-md">
+	<div class="card">
+		<div class="card-header">
+			<div class="col-xs-6 p-0">
+				<h5 class="card-title"><span id="all-student-count">{{totalStudents}}</span> Students </h5>
+				<h6 class="card-subtitle text-muted">All students registered.</h6>
+			</div>
+			<div class="col-xs-6 p-0">
+				<a id="print-students" class="float-right"><i class="fas fa-print"></i> Print</a>
+			</div>
+		</div>	
+		<div class="card-body">
+			<div id="datatables-basic_wrapper" class="dataTables_wrapper dt-bootstrap4">
+				<div class="row">
+					<div class="col-sm-12 col-md-6 col-lg-3">
+						<label>Result Size </label>
+							<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm student-filter" data-filter="size">
+								{{#pageSizeOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/pageSizeOptions}}
+							</select>
+					</div>
+					<div class="col-sm-12 col-md-6 col-lg-3">
+						<label>Sort by</label>
+							<select class="custom-select custom-select-sm form-control form-control-sm student-filter" data-filter="studentSort">
+								<option value="">Sort by</option>
+								{{#studentSortOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/studentSortOptions}}
+							</select>
+					</div>
+					<div class="col-sm-12 col-md-6 col-lg-3" >
+						<label>Filter</label>
+						<select name="datatables-basic_length" class="custom-select custom-select-sm form-control form-control-sm student-filter dib" data-filter="studentsFilter">
+							{{#studentActiveOptions}}
+								<option value="{{val}}" {{selected}}>{{name}}</option>
+							{{/studentActiveOptions}}
+						</select>
+					</div>
+					<div class="col-sm-12 col-md-6 col-lg-3 " >
+						<label>Search:</label>
+						<input type="text" class="form-control form-control-sm student-filter type-to-filter" data-filter="search" placeholder="" aria-controls="datatables-basic">
+					</div>
+				</div>
+				<div class="row">
+					<div id="student-print-wrap" class="col-sm-12">
+						<table id="student-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+							<thead>
+								<tr role="row">
+									<th></th>
+									<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
+									<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Billing Rate">Billing Rate</th>
+									<th>Scheduled Attendance</th>
+									<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Student Id</th>
+									<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">School</th>
+									<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Grade</th>
+									<th class="dnp">Edit</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#students}}
+									{{>tempStudentRow}}
+								{{/students}}
+							</tbody>
+							<tfoot class="dnp">
+								<tr >
+									<th></th>
+									<th >Name</th>
+									<th>Billing Rate</th>
+									<th>Scheduled Attendance</th>
+									<th >Student Id</th>
+									<th >School</th>
+									<th>Grade</th>
+									<th>Edit</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			<!-- <div class="row">
+				<div class="col-sm-12 col-md-5">
+					<div class="dataTables_info" id="datatables-basic_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+				</div>
+				<div class="col-sm-12 col-md-7">
+					<div class="dataTables_paginate paging_simple_numbers" id="datatables-basic_paginate">
+						<ul class="pagination">
+							<li class="paginate_button page-item previous disabled" id="datatables-basic_previous">
+								<a href="#" aria-controls="datatables-basic" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+							</li>
+							<li class="paginate_button page-item active">
+								<a href="#" aria-controls="datatables-basic" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+							</li>
+							<li class="paginate_button page-item ">
+								<a href="#" aria-controls="datatables-basic" data-dt-idx="2" tabindex="0" class="page-link">2</a>
+							</li>
+							<li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="datatables-basic" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="datatables-basic_next"><a href="#" aria-controls="datatables-basic" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
+						</ul>
+					</div>
+				</div>
+			</div> -->
+			<div class="row">
+				<div class="col-sm-12 col-md-5">
+				</div>
+				<div class="col-sm-12 col-md-7">
+					<div class="page-changer" id="students-pagination"></div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>	
+	
+	</section>
+</script>
+
+<script id="tempStudentRowWrap">
+	{{#students}}
+		{{>tempStudentRow}}
+	{{/students}}
+</script>
+
+<script id="tempStudentRow">
+	<tr role="row" class="odd">
+		<td class="check-in-out-btn" data-id="{{studentId}}" style="padding-right:15px;">
+			{{#isCheckedIn}}
+				<a><i class="far fa-times-circle"></i></td></a>
+			{{/isCheckedIn}}
+			{{^isCheckedIn}}
+				<a><i class="far fa-check-circle"></i></td></a>
+			{{/isCheckedIn}}
+		<td class="" tabindex="0">
+			<a class="student-ledger" data-id="{{id}}"><i class="fas fa-receipt"></i></a> {{firstName}} {{middleName}} {{lastName}} 
+			{{#showAllergies}}
+				<a class="show-allergies" data-allergies="{{allergies}}"><i class="fas fa-allergies"></i></a>
+			{{/showAllergies}}
+			{{#requiresIdCard}}
+				<a><i class="far fa-id-card text-danger"></i></a>
+			{{/requiresIdCard}}
+			
+		</td>
+		<td>{{billingPlan}}</td>
+		<td>
+			<a class="student-checkin-ledger" data-id="{{id}}"><i class="fas fa-stopwatch"></i></a>  
+			{{defaultWeeklyBillingTypeName}}
+		</td>
+		<td >{{studentId}}</td>
+		<td >{{schoolName}}</td>
+		<td>{{grade}}</td>
+		<td class="dnp"><a class="user-edit" data-id="{{id}}"> <i class="fas fa-user-edit"></i></a></td>
+	</tr>
+</script>
+
+<script id="tempStudentAllergiesModal">
+	<div class="modal" id="studentAllergiesModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <h5 class="modal-title">Student Allergies</h5>
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="modal-body">
+		    	{{allergies}}
+		    </div>
+		    <div class="modal-footer">
+		   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>

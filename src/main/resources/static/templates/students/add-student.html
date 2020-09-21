@@ -1,0 +1,220 @@
+<script id="tempNewStudentForm">
+	<section class="wrapper">
+		<div class="row justify-content-center">
+			<div class="col-md-8 col-lg-6 bg-white rounded shadow-sm p-3">
+				<h4 class="mb-3">Add Student
+					{{#showBack}}
+						<button id="edit-student-back" class="float-right btn btn-default">Back</button>
+					{{/showBack}}
+				</h4>
+				<form id="new-student-form" onsubmit="return false;" data-id="{{formId}}">
+					<div class="form-group">
+						<label for="firstName{{formId}}">First Name</label>
+						<input type="text" class="form-control" name="firstName" id="firstName{{formId}}" aria-describedby="first name" placeholder="First Name" value="{{firstName}}"> 
+					</div>
+					<div class="form-group">
+						<label for="lastName{{formId}}">Last Name</label>
+						<input type="text" class="form-control" name="lastName" id="lastName{{formId}}" aria-describedby="last name" placeholder="Last Name" value="{{lastName}}"> 
+					</div>
+					<div class="form-group">
+						<label for="middleName{{formId}}">Middle Initial</label>
+						<input type="text" class="form-control" name="middleName" id="middleName{{formId}}" aria-describedby="middleName" placeholder="Middle Initial" value="{{middleName}}"> 
+					</div>
+					<div class="form-group">
+						<label for="grade{{formId}}">Grade</label>
+						<input type="text" class="form-control" name="grade:string" id="grade{{formId}}" aria-describedby="grade" placeholder="Grade" value="{{grade}}"> 
+					</div>
+					<div class="form-group">
+						<label for="schoolName{{formId}}">School</label>
+						<input type="text" class="form-control" name="schoolName:string" id="schoolName{{formId}}" aria-describedby="schoolName" placeholder="School" value="{{schoolName}}"> 
+					</div>
+					<div class="form-group">
+						<label for="studentId{{formId}}">Student ID</label>
+						<input type="text" class="form-control" name="studentId:string" id="studentId{{formId}}" aria-describedby="student id" placeholder="Student ID" value="{{studentId}}"> 
+					</div>
+					<div class="form-group">
+						<label for="billingPlanId{{formId}}">Billing Plan</label>
+						<select name="billingPlanId" id="billingPlanId{{formId}}" class="form-control">
+							{{#bilingPlanOptions}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/bilingPlanOptions}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="defaultWeeklyBillingType{{formId}}">Scheduled Attendance</label>
+						<select name="defaultWeeklyBillingType" id="defaultWeeklyBillingType{{formId}}" class="form-control">
+							{{#defaultBillingTypes}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/defaultBillingTypes}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="active{{formId}}">Active Status</label>
+						<select name="active" id="active{{formId}}" class="form-control">
+							{{#statusTypes}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/statusTypes}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="noPhoto{{formId}}">No Photo</label>
+						<select name="noPhoto" id="noPhoto{{formId}}" class="form-control">
+							{{#photoOptions}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/photoOptions}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="requiresIdCard{{formId}}">Requires ID Card</label>
+						<select name="requiresIdCard" id="requiresIdCard{{formId}}" class="form-control">
+							{{#idCardOptions}}	
+								<option value="{{value}}" {{selected}}>{{label}}</option>
+							{{/idCardOptions}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="allergies{{formId}}">Allergies</label>
+						<textarea name="allergies" id="allergies{{formId}}" class="form-control" rows="4" cols="50">{{allergies}}</textarea>
+					</div>
+					<input type="hidden" name="typeClass" value="Student"/>
+					<input type="hidden" name="id" value="{{id}}"/>
+				</form>	
+			</div>
+		</div>
+		<div class="row justify-content-center" style="padding-top:5px;">
+			<div class="col-md-8 col-lg-6 bg-white rounded shadow-sm p-3">
+				<h4 class="mb-3">Parent Info</h4>
+				<div class="parent-wrap">
+					{{#guardians}}
+						{{>tempGuardianForm}}
+					{{/guardians}}
+				</div>
+				<button id="add-parent" class="btn btn-primary float-right"><i class="fas fa-user-plus"></i> Add Parent</button>
+			</div>
+		</div>
+		
+		
+		<div class="row justify-content-center" style="padding-top:5px;">
+			<div class="col-md-8 col-lg-6 bg-white rounded shadow-sm p-3">
+				{{#showDelete}}
+					<button id="delete-student" class="btn btn-danger float-left" data-id="{{id}}">Delete</button>
+				{{/showDelete}}
+				<button id="submit-student" class="btn btn-primary float-right">Submit</button>
+			</div>
+		</div>
+	</section>
+</script>
+
+<script id="tempNewStudentSuccessMessage">
+	<div class="alert alert-success alert-dismissible show" role="alert" id="{{alertId}}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    	<span aria-hidden="true">&times;</span>
+	    </button>
+		{{firstName}} {{lastName}} successfully saved.
+	</div>
+</script>
+
+<script id="tempDeleteStudentMessage">
+	<div class="alert alert-danger alert-dismissible show" role="alert" id="{{alertId}}">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    	<span aria-hidden="true">&times;</span>
+	    </button>
+		{{firstName}} {{lastName}} successfully deleted.
+	</div>
+</script>
+
+<script id="tempGuardianForm">
+	<div class="guardian-form-wrap">
+		<form class="guardian-form" data-id="{{formId}}">
+			<div class="form-group">
+				<button class="btn btn-sm btn-danger float-right delete-guardian">Delete</button>
+			</div>
+			<div class="clearfix"></div>
+			<div class="form-group">
+				<label for="firstName{{formId}}">First Name</label>
+				<input type="text" class="form-control" name="firstName" id="firstName{{formId}}" aria-describedby="first name" placeholder="First Name" value="{{firstName}}"> 
+			</div>
+			<div class="form-group">
+				<label for="lastName{{formId}}">Last Name</label>
+				<input type="text" class="form-control" name="lastName" id="lastName{{formId}}" aria-describedby="last name" placeholder="Last Name" value="{{lastName}}"> 
+			</div>
+			<div class="form-group">
+				<label for="relationship{{formId}}">Relationship</label>
+				<select class="form-control" id="relationship{{formId}}" name="relationship">
+					{{#relationshipTypes}}
+						<option value="{{value}}" {{selected}}>{{label}}</option>
+					{{/relationshipTypes}}
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="driversLicenseNumber{{formId}}">Driver License Number</label>
+				<input type="text" class="form-control" name="driversLicenseNumber" id="driversLicenseNumber{{formId}}" aria-describedby="drivers license number" placeholder="Driver License Number" value="{{driversLicenseNumber}}"> 
+			</div>
+			
+			<div class="form-group">
+				<label for="parentId{{formId}}">Parent ID</label>
+				<input type="text" class="form-control" name="parentId" id="parentId{{formId}}" aria-describedby="parent id" placeholder="Parent Id" value="{{parentId}}"> 
+			</div>
+			<input type="hidden" name="typeClass" value="Guardian"/>
+			<input type="hidden" name="id" value="{{id}}"/>
+			<input type="hidden" name="familyBillingAccountId" value="{{familyBillingAccountId}}"/>
+		</form>
+		<h5>Contact</h5>
+		<div class="guardian-contact-wrap">
+			{{#contacts}}
+				{{>tempContactForm}}
+			{{/contacts}}
+		</div>
+		<a class="add-guardian-contact"><i class="fas fa-plus-square"></i> Add Contact</a>
+	</div>
+</script>
+
+
+<script id="tempContactForm">
+	<form class="contact-form" data-id="{{formId}}">
+		<div class="form-group">
+			<label for="contactType{{formId}}">Type</label>
+			<select class="form-control" id="contactType{{formId}}" name="contactType">
+				{{#contactTypes}}
+					<option value="{{value}}" {{selected}}>{{label}}</option>
+				{{/contactTypes}}
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="label{{formId}}">Label</label>
+			<input type="text" class="form-control" name="label" id="label{{formId}}" aria-describedby="label" placeholder="Label" value="{{label}}"> 
+		</div>
+		<div class="form-group">
+			<label for="contactValue{{formId}}">Value</label>
+			<input type="text" class="form-control" name="contactValue" id="contactValue{{formId}}" aria-describedby="contactValue" placeholder="Value" value="{{contactValue}}"> 
+		</div>
+		<div class="form-check-inline">
+			<input class="form-check-input" type="checkbox" name="preferred" value="true" id="preferred{{formId}}" {{#preferred}}checked{{/preferred}}/>
+		 	<label class="form-check-label" for="preferred{{formId}}">Preferred</label>
+		</div>
+		<input type="hidden" name="id" value="{{id}}"/>
+	</form>
+</script>
+
+<script id="tempDeleteStudentWarningModal">
+	<div class="modal" id="deleteStudentWarningModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <h5 class="modal-title">Delete Student</h5>
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="modal-body">
+		    	Are you sure you want to delete this student?
+		    </div>
+		    <div class="modal-footer">
+		   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      	<button id="confirm-delete-student-btn" type="button" class="btn btn-primary">Confirm Delete</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+
+</script>

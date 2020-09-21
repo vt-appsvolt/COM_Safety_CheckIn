@@ -1,0 +1,77 @@
+<script id="tempAfterSchoolProgramsWrap">
+	<section class="wrapper">
+		<div id="after-school-program-wrap" class="container">
+			<div class="row">
+				{{#afterSchoolPrograms}}
+					{{>tempAfterSchoolProgram}}
+				{{/afterSchoolPrograms}}
+			</div>
+		</div>
+		<div class="clearfix"></div>
+		<div class="col-12" id="add-after-school-program-wrap"></div>
+		<div class="col-12">
+			<button class="btn btn-green btn-sm zero-radius add-after-school-program">Add Program</button>
+		</div>
+	</section>
+</script>
+
+<script id="tempAfterSchoolProgram">
+	<div class="col-md-6 col-lg-4">
+	    <div class="card mb-4 shadow-sm">
+	      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+	      <div class="card-body">
+	      	<h5 class="text-title">{{id}}: {{programName}}</h5>
+	        <p class="card-text">
+	        	Decription about the program.
+	        	<br/>
+	        	12345 Safe Way Road Naples. FL 34108
+	        </p>
+	        
+	        <div class="d-flex justify-content-between align-items-center">
+	          <div class="btn-group">
+	            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+	            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+	          </div>
+	          <small class="text-muted">9 mins</small>
+	        </div>
+	      </div>
+	    </div>
+	    <div class="clearfix"></div>
+	  </div>
+	  
+</script>
+
+<script id="tempAfterSchoolProgramForm">
+	<section class="wrapper">
+		<form id="after-school-program-form" onsubmit="return false;">
+			<div class="form-group">
+				<label for="programName">Program Name</label>
+				<input type="text" class="form-control" name="programName" id="programName" aria-describedby="program name" placeholder="Program Name" value="{{programName}}"> 
+			</div>
+			
+			<button id="submit-after-school-program" class="btn btn-primary">Submit</button>
+		</form>	
+	</section>
+</script>
+
+<script id="tempEmployeeProgramDropDown">
+	{{#hasMultiple}}
+		<a class="nav-link dropdown-toggle active-program-ref" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-id="{{activeProgram.id}}">
+			{{activeProgram.programName}}
+		</a>
+		<div class="dropdown-menu" aria-labelledby="navbarDropdown" >
+			{{#programs}}
+				<a class="dropdown-item active-program {{#isactive}}active{{/isactive}}" data-id="{{id}}">
+					{{#isActive}}<i class="fas fa-check-square"></i>{{/isActive}}
+					{{^isActive}}<i class="far fa-square"></i>{{/isActive}}
+					 {{programName}}</a>
+			{{/programs}}
+		</div>
+	{{/hasMultiple}}
+	{{^hasMultiple}}
+		<a class="nav-link" href="#" id="navbarDropdown" role="button" aria-expanded="false">
+			{{activeProgram.programName}}
+		</a>
+	{{/hasMultiple}}
+
+</script>

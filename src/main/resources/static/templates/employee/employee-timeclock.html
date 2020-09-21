@@ -1,0 +1,149 @@
+<script id="tempEmployeeTimeclock">
+	<section class="wrapper">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<button class="btn btn-blue float-right m-3"><i class="fas fa-sign-out-alt"></i> Clock Out</button>
+					<button class="btn btn-blue float-right m-3"><i class="fas fa-sign-in-alt"></i> Clock In</button>
+					<h5 class="card-title">Employee Timeclock</h5>
+					<h6 class="card-subtitle text-muted"></h6>
+				</div>
+				<div class="card-body">
+					<div id="datatables-basic_wrapper" class="dataTables_wrapper dt-bootstrap4">
+						<div class="row">
+							<div class="col-sm-12 col-md-6">
+								<div class="dataTables_length" id="datatables-basic_length">
+									<label>Show 
+										<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm student-filter student-filter-activated" data-filter="size">
+											<option value="10">10</option>
+											<option value="25">25</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+										</select> entries
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-6">
+								<div id="datatables-basic_filter" class="dataTables_filter">
+									<label>Search:<input type="text" class="form-control form-control-sm student-filter type-to-filter student-filter-activated" data-filter="search" placeholder="" aria-controls="datatables-basic"></label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<table id="student-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+									<thead>
+										<tr role="row">
+											<th>ID</th>
+											<th>Name</th>
+											<th>IP Address</th>
+											<th>Week</th>
+											<th>Entry Date</th>
+											<th>Time In</th>
+											<th>Time Out</th>
+											<th>Edits</th>
+											<th>Hours</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+					
+					<tr role="row" class="odd">
+					<td>1234</td>
+					<td class="" tabindex="0">Nicholas J Anagnostou</td>
+					<td>71.183.342.322</td>
+					<td>26</td>
+					<td>7/13/2019</td>
+					<td>09:00</td>
+					<td>17:00</td>
+					<td>0</td>
+					<td>8.0</td>
+					
+					<td><a class="user-edit" data-id="12"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+					
+					<tr role="row" class="odd">
+						<td>2425</td>
+						<td class="" tabindex="0">Abigail  Anagnostou</td>
+						<td>71.183.342.324</td>
+						<td>26</td>
+						<td>7/13/2019</td>
+						<td>09:00</td>
+						<td>Active</td>
+						<td>0</td>
+						<td></td>
+						<td><a class="user-edit" data-id="16"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+					
+					<tr role="row" class="odd">
+						<td>304222</td>
+						<td class="" tabindex="0">Hunter  Williams</td>
+						<td>71.183.342.322</td>
+						<td>26</td>
+						<td>7/13/2019</td>
+						<td>09:00</td>
+						<td>17:00</td>
+						<td>0</td>
+						<td>8.0</td>
+						
+						<td><a class="user-edit" data-id="19"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+					
+					<tr role="row" class="odd">
+						<td>345094</td>
+						<td class="" tabindex="0">Logan  Fitzgerald</td>
+						<td>71.183.342.322</td>
+						<td>26</td>
+						<td>7/13/2019</td>
+						<td>09:00</td>
+						<td>17:00</td>
+						<td>0</td>
+						<td>8.0</td>
+						
+						<td><a class="user-edit" data-id="20"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+					
+					<tr role="row" class="odd">
+						<td>332954</td>
+						<td class="" tabindex="0">Richard  Qian</td>
+						<td>71.183.342.322</td>
+						<td>26</td>
+						<td>7/13/2019</td>
+						<td>09:00</td>
+						<td>17:00</td>
+						<td>0</td>
+						<td>8.0</td>
+						
+						<td><a class="user-edit" data-id="31"> <i class="fas fa-user-edit"></i></a></td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>IP Address</th>
+						<th>Week</th>
+						<th>Entry Date</th>
+						<th>Time In</th>
+						<th>Time Out</th>
+						<th>Edits</th>
+						<th>Hours</th>
+						<th></th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+					<div class="row">
+						<div class="col-sm-12 col-md-5">
+						</div>
+						<div class="col-sm-12 col-md-7">
+							<div class="page-changer" id="students-pagination" style="display: none;"></div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</section>
+</script>

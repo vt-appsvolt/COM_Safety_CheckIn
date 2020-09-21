@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Registration Form</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/registration.css}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<form th:action="@{/login}" method="get">
+		<button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
+	</form>	
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h2>WECOME TO MY LANDING PAGE</h2>
+				<p>info....</p>
+			</div>
+		</div>
+		<input type="text" id="json-location"/>
+		<textarea id="json-input" rows="4" cols="50">
+		</textarea>
+		<button id="process">Process</button>
+		
+	</div>
+	<script>
+		$(function(){
+			$('#process').click(function(){
+				var startingJsonArray = jQuery.parseJSON(  $('#json-input').val() );
+				console.log(['startingJson', startingJsonArray]);
+				$.each( startingJsonArray, function( i, unformattedStudent ){
+					processStudent( unformattedStudent );
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			});
+			
+			
+			var processStudent= function( unformattedStudent ){
+				var student = formatStudentForm( unformattedStudent );
+				if( typeof student.childFirstName !== 'undefined' ){
+					var location = $('#json-location').val();
+					$.ajax('/webhook/3KX64t_DStP9f6_Cd8U9/'+location+'/student/registration/form', { 
+						type:'POST',
+						data: JSON.stringify( student ),
+						dataType: 'json',
+						contentType: 'application/json'
+					});
+					console.log('formatted student', student);
+				}
+			}
+			
+			var formatStudentForm = function( us ){
+				var studentForm = {};
+				if( typeof us['School'] !== 'undefined' && us['School'].trim() !== ''){
+					studentForm.school = us['School'].trim();
+				} 
+				
+				if( typeof us["Child's Name"] !== 'undefined' && us["Child's Name"].trim() !== '' ){
+					studentForm.childFirstName = us["Child's Name"].split(',')[0];
+					studentForm.childLastName =  us["Child's Name"].split(',')[1].trim();
+					studentForm.grade = us["Grade"];
+					studentForm.teacherName = us["Teacher's Name"];
+					studentForm.dateOfBirth = us["Date of Birth"];
+					studentForm.sex = us["Sex"];
+					studentForm.allergies = us["Please list allergies, medical needs, or any other information you think may help your child succeed at our program:"];
+					if( typeof us["Child's Address"] !== 'undefined' && us["Child's Address"].trim() !== '' ){
+						try{
+							studentForm.childStreetAddress = us["Child's Address"].split(',')[0];
+							studentForm.childAddressCity = us["Child's Address"].split(',')[1].trim();
+							studentForm.childAddressZipCode = us["Child's Address"].split(',')[2].trim();
+						}catch(err){}
+					}
+				}
+				if( typeof us["2. Child's Name"] !== 'undefined' && us["2. Child's Name"].trim() !== '' ){
+					studentForm.twoChildFirstName = us["2. Child's Name"].split(',')[0];
+					studentForm.twoChildLastName =  us["2. Child's Name"].split(',')[1].trim();
+					studentForm.twoGrade = us["2. Grade"];
+					studentForm.twoTeacherName = us["2. Teacher's Name"];
+					studentForm.twoDateOfBirth = us["2.Date of Birth"];
+					studentForm.twoSex = us["2. Sex"];
+					studentForm.twoAllergies = us["2. Please list allergies, medical needs, or any other information you think may help your child succeed at our program:"];
+					
+				}
+				if( typeof us["3. Child's Name"] !== 'undefined' && us["3. Child's Name"].trim() !== '' ){
+					studentForm.threeChildFirstName = us["3. Child's Name"].split(',')[0];
+					studentForm.threeChildLastName =  us["3. Child's Name"].split(',')[1].trim();
+					studentForm.threeGrade = us["3. Grade"];
+					studentForm.threeTeacherName = us["3. Teacher's Name"];
+					studentForm.threeDateOfBirth = us["3.Date of Birth"];
+					studentForm.threeSex = us["3. Sex"];
+					studentForm.threeAllergies = us["3. Please list allergies, medical needs, or any other information you think may help your child succeed at our program:"];
+				}
+				if( typeof us["4. Child's Name"] !== 'undefined' && us["4. Child's Name"].trim() !== '' ){
+					studentForm.fourChildFirstName = us["4. Child's Name"].split(',')[0];
+					studentForm.fourChildLastName =  us["4. Child's Name"].split(',')[1].trim();
+					studentForm.fourGrade = us["4. Grade"];
+					studentForm.fourTeacherName = us["4. Teacher's Name"];
+					studentForm.fourDateOfBirth = us["4.Date of Birth"];
+					studentForm.fourSex = us["4. Sex"];
+					studentForm.fourAllergies = us["4. Please list allergies, medical needs, or any other information you think may help your child succeed at our program:"];
+				}
+				if( typeof us["5. Child's Name"] !== 'undefined' && us["5. Child's Name"].trim() !== '' ){
+					studentForm.fiveChildFirstName = us["5. Child's Name"].split(',')[0];
+					studentForm.fiveChildLastName =  us["5. Child's Name"].split(',')[1].trim();
+					studentForm.fiveGrade = us["5. Grade"];
+					studentForm.fiveTeacherName = us["5. Teacher's Name"];
+					studentForm.fiveDateOfBirth = us["5.Date of Birth"];
+					studentForm.fiveSex = us["5. Sex"];
+					studentForm.fiveAllergies = us["5. Please list allergies, medical needs, or any other information you think may help your child succeed at our program:"];
+				}				
+				
+				if( typeof us["Address"] !== 'undefined' && us["Address"].trim() !== '' ){
+					try{
+					studentForm.parentStreetAddress = us["Address"].split(',')[0];
+					studentForm.parentCity = us["Address"].split(',')[1].trim();
+					studentForm.parentZipCode = us["Address"].split(',')[2].trim();
+					}catch(err){}
+				}else if( typeof us["Child's Address"] !== 'undefined' && us["Child's Address"].trim() !== '' ){
+					try{
+					studentForm.parentStreetAddress = us["Child's Address"].split(',')[0];
+					studentForm.parentCity = us["Child's Address"].split(',')[1].trim();
+					studentForm.parentZipCode = us["Child's Address"].split(',')[2].trim();
+					}catch(err){}
+				}
+				
+				if( typeof us["Email"] !== 'undefined' && us["Email"].trim() !== '' ){
+					studentForm.email = us["Email"];
+				}
+				if( typeof us["Cell Phone"] !== 'undefined' && us["Cell Phone"].trim() !== '' ){
+					studentForm.cellPhone = us["Cell Phone"];
+				}
+				if( typeof us["Work Phone"] !== 'undefined' && us["Work Phone"].trim() !== '' ){
+					studentForm.workPhone = us["Work Phone"];
+				}
+				
+				
+				if( us["Parent 1: Name"].trim() !== '' ){
+					studentForm.oneParentFirstName  = us["Parent 1: Name"].split(',')[0];
+					studentForm.oneParentLastName   = us["Parent 1: Name"].split(',')[1].trim();
+					studentForm.driverLicenseNumber = us["Driver License Number"];
+					
+				}
+				
+				
+				if( us["Parent 2: Name"].trim() !== '' ){
+					studentForm.twoParentFirstName  = us["Parent 2: Name"].split(',')[0];
+					studentForm.twoParentLastName   = us["Parent 2: Name"].split(',')[1].trim();
+					studentForm.twoDriverLicenseNumber = us["2. Driver License Number"];
+					
+					if( typeof us["2. Email"] !== 'undefined' && us["2. Email"].trim() !== '' ){
+						studentForm.twoEmail = us["2. Email"];
+					}
+					if( typeof us["2. Cell Phone"] !== 'undefined' && us["2. Cell Phone"].trim() !== '' ){
+						studentForm.twoCellPhone = us["2. Cell Phone"];
+					}
+					if( typeof us["2. Work Phone"] !== 'undefined' && us["2. Work Phone"].trim() !== '' ){
+						studentForm.twoWorkPhone = us["2. Work Phone"];
+					}
+					
+					if( us["2. Address"].trim() !== ''){
+						try{
+							studentForm.twoParentStreetAddress = us["2. Address"].split(',')[0];
+							studentForm.twoParentCity = us["2. Address"].split(',')[1].trim();
+							studentForm.twoParentZipCode = us["2. Address"].split(',')[2].trim();
+						}catch( err ){}
+					}
+				}
+				if( us["Alt Name"].trim() !== '' ){
+					try{
+						studentForm.additionalPickUpNameFirst = us["Alt Name"].split(',')[0];
+						studentForm.additionalPickUpNameLast = us["Alt Name"].split(',')[1].trim();
+						studentForm.additionalPickUpPhone = us["Alt Phone"];
+					}catch(err){}
+				}
+				if( us["2. Alt Name"].trim() !== '' ){
+					try{
+						studentForm.twoAdditionalPickUpNameFirst = us["2. Alt Name"].split(',')[0];
+						studentForm.twoAdditionalPickUpNameLast = us["2. Alt Name"].split(',')[1].trim();
+						studentForm.twoAdditionalPickUpPhone = us["2. Alt Phone"];
+					}catch(err){}
+				}
+				if( us["3. Alt Name"].trim() !== '' ){
+					try{
+						studentForm.threeAdditionalPickUpNameFirst = us["3. Alt Name"].split(',')[0];
+						studentForm.threeAdditionalPickUpNameLast = us["3. Alt Name"].split(',')[1].trim();
+						studentForm.threeAdditionalPickUpPhone = us["3. Alt Phone"];
+					}catch(err){}
+				}
+				
+				studentForm.noPhoto = [ us["I do not want my child photographed or videotaped"] ];
+				studentForm.enrollmentType = [ us["Please check off which type of enrollment:"] ];
+				
+				return studentForm;
+			}
+			
+			
+			
+			
+		});
+	
+	
+	
+	
+	
+	</script>	
+	
+
+</body>
+</html>

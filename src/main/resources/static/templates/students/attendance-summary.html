@@ -1,0 +1,117 @@
+<script id="tempProgramAttendanceSummary">
+	<section class="wrapper">
+		<div id="attendance-summary-print-wrap" class="col-12 px-0 px-3-md">
+			<div class="card">
+				<div class="card-header dnp">
+					<div class="col-xs-6 p-0">
+						<h5 class="card-title"><span id="all-student-count">{{totalStudents}}</span> Students Summary </h5>
+						<h6 class="card-subtitle text-muted"></h6>
+					</div>
+					<div class="col-xs-6 p-0">
+						<a id="print-students" class="float-right"><i class="fas fa-print"></i> Print</a>
+					</div>
+				</div>	
+				<div class="card-header">
+					<div class="row">
+						<div class="col-3 col-xs-3">
+							<p>{{program.street}}<p>
+							<p>{{program.address}}<p>
+						</div>
+						<div class="col-6 col-xs-6 p-0 text-center">
+							<h2 class="mt-0">{{program.programFullName}}</h2>
+							</h4>Half Day < 6 hrs -- Full Day >= 6 hrs</h4>
+						</div>
+						<div class="col-3 col-xs-3 text-right">
+							<p>{{program.phone}}<p>
+							<p>{{program.email}}<p>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="col-12 col-xs-12 text-center vpo">
+						<p id="active-filter-row" class="text-center mb-0">
+							{{activeFilter}}
+						</p>
+						<p id="attendance-summary-range" class="text-center">
+							{{attendanceRange}}
+						</p>
+					</div>
+					<div class="dataTables_wrapper dt-bootstrap4">
+						<div id="attendance-summary-filters-wrap" class="row dnp">
+							<div class="col-sm-12 col-md-12 col-lg-3" >
+								<label>Filter</label>
+								<select name="datatables-basic_length" class="custom-select custom-select-sm form-control form-control-sm attendance-summary-checkin-log-filter dib" data-filter="filter">
+									{{#filterOptions}}
+										<option value="{{val}}" {{selected}}>{{name}}</option>
+									{{/filterOptions}}
+								</select>
+							</div>
+							<div class="col-xs-6 col-md-6 col-lg-3 offset-lg-3">
+								<label>From Date:</label>
+								<input type="text" class="form-control form-control-sm attendance-summary-checkin-log-filter checkin-ledger-date search-on-change" data-filter="startDate" placeholder="" aria-controls="datatables-basic" value="{{formattedStartDate}}">
+							</div>
+							<div class="col-xs-6 col-md-6 col-lg-3">
+								<label>To Date:</label>
+								<input type="text" class="form-control form-control-sm attendance-summary-checkin-log-filter checkin-ledger-date search-on-change" data-filter="endDate" placeholder="" aria-controls="datatables-basic" value="{{formattedEndDate}}">
+							</div>
+							<div id="attendance-summary-pagination"></div>
+						</div>
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<table id="attendance-summary-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+									{{>tempStudentAttendanceTable}}
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</script>
+
+<script id="tempStudentAttendanceTable">
+	<thead>
+		<tr role="row">
+			<th>Child's Name</th>
+			{{#headerColumns}}
+				<th>{{title}}</th>
+			{{/headerColumns}}
+			<th><i class="far fa-circle"></i> Half Day</th>
+			<th><i class="fas fa-circle"></i> Full Day</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#students}}
+			{{>tempStudentAttendanceRow}}
+		{{/students}}
+	
+		<tr >
+			<th>Total Children: {{totalChildrenCount}}</th>
+			{{#headerColumns}}
+				<th>{{total}}</th>
+			{{/headerColumns}}
+			<th>{{halfDayCount}}</th>
+			<th>{{fullDayCount}}</th>
+		</tr>
+	</tbody>
+</script>
+
+<script id="tempStudentAttendanceRow">
+	<tr >
+		<td>{{childTitle}}</td>
+		{{#attendanceColumns}}
+			<td>
+				{{#isFullDay}}
+					<i class="fas fa-circle"></i>
+				{{/isFullDay}}
+				{{#isHalfDay}}
+					<i class="far fa-circle"></i>
+				{{/isHalfDay}}
+			</td>
+		{{/attendanceColumns}}
+		<td>{{halfDayCount}}</td>
+		<td>{{fullDayCount}}</td>
+	</tr>
+</script>

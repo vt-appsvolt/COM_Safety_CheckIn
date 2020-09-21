@@ -1,0 +1,423 @@
+<script id="tempCheckinLogTable">
+	<section class="wrapper d-print-block">
+	<div class="col-12" id="student-checkin-log-print-wrap">
+		<div class="card">
+			<div class="card-header">
+				<div class="col-xs-6">
+					<h5 class="card-title">Student Checkin Log</h5>
+					<h6 class="card-subtitle text-muted">Unique Students for the day <span class="unique-student-log-count"></span></h6>
+					<h6 class="card-subtitle text-muted active-filter-student-log-count-wrap" style="display:none; padding-top:5px;">Active Filter student count <span class="active-filter-student-log-count"></span></h6>
+				</div>
+				<div class="col-xs-6">
+					<a id="print-students" class="float-right"><i class="fas fa-print"></i> Print</a>
+					<a id="clear-daily-logs" class="float-right d-print-none" style="margin-right: 15px;"><i class="far fa-trash-alt"></i> Clear Logs</a>
+					<!-- <button class="btn btn-sm btn-default float-right d-print-none" onclick="window.print();">Print</button> -->
+					<!-- <button id="clear-daily-logs" class="btn btn-default float-right d-print-none" style="margin-right: 15px;">Clear Logs</button> -->
+				</div>
+			</div>
+			<div class="card-body ">
+				<div id="datatables-basic_wrapper" class="dataTables_wrapper dt-bootstrap4">
+					<div class="row d-print-none">
+						<div class="col-sm-6 col-md-6 col-lg-3">
+							<label>Result Size </label>
+							<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm checkin-log-filter" data-filter="size">
+								{{#pageSizeOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/pageSizeOptions}}
+							</select>
+						</div>
+						<div class="col-sm-12 col-md-6 col-lg-3">
+							<label>Sort by</label>
+							<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm checkin-log-filter" data-filter="studentSort">
+								<option value="">Sort by</option>
+								{{#studentSortOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/studentSortOptions}}
+							</select>
+						</div>
+						<div class="col-sm-12 col-md-6 col-lg-3" >
+							<label>Filter</label>
+							<select name="datatables-basic_length" aria-controls="datatables-basic" class="custom-select custom-select-sm form-control form-control-sm checkin-log-filter" data-filter="studentFilter">
+								{{#studentFilterOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/studentFilterOptions}}
+							</select>
+						</div>
+						<div class="col-sm-12 col-md-6 col-lg-3 " >
+							<label>Date:</label>
+							<input type="text" class="form-control form-control-sm checkin-log-filter checkin-log-date search-on-change" data-filter="date" placeholder="" aria-controls="datatables-basic" value="{{formattedDate}}"/>
+						</div>
+						<div class="col-sm-12 col-md-6">
+							<label>Search:</label>
+							<input type="text" class="form-control form-control-sm checkin-log-filter type-to-filter" data-filter="search" placeholder="" aria-controls="datatables-basic"/>
+						</div>
+					</div>
+					<div class="row ">
+						<div class="col-sm-12">
+							<table id="checkin-log-table" class="table table-striped dataTable dtr-inline d-print-table" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+								<thead>
+									<tr role="row">
+										<th></th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Pickup Name: activate to sort column ascending">Pickup Name</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending">Student Id</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending">School</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Age: activate to sort column ascending">Grade</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Check In Time">Check In Time</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Check Out Time">Check Out Time</th>
+										<th tabindex="0" aria-controls="datatables-basic" rowspan="1" colspan="1" aria-label="Edit">Edit</th>
+									</tr>
+								</thead>
+								<tbody>
+									{{#checkIns}}
+										{{>tempStudentRow}}
+									{{/checkIns}}
+								</tbody>
+								<tfoot class="d-print-none">
+									<tr class="d-print-none">
+										<th></th>
+										<th >Name</th>
+										<th>Pickup Name</th>
+										<th >Student Id</th>
+										<th >School</th>
+										<th>Grade</th>
+										<th>Check In Time</th>
+										<th>Check Out Time</th>
+										<th>Edit</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				<div class="row d-print-none">
+					<div class="col-sm-12 col-md-5">
+					</div>
+					<div class="col-sm-12 col-md-7">
+						<div class="page-changer" id="checkin-log-pagination"></div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	</section>
+</script>
+
+<script id="tempStudentRowWrap">
+	{{#checkIns}}
+		{{>tempStudentRow}}
+	{{/checkIns}}
+</script>
+
+<script id="tempStudentRow">
+	<tr role="row" class="odd active-student-row" data-id="{{student.studentId}}" id="checkin-log-row-{{id}}">
+		<td class="delete-log-btn" data-id="{{id}}">
+			<i class="fas fa-trash-alt"></i>
+		</td>
+		</td>
+		<td class="student-name" tabindex="0">{{student.firstName}} {{student.middleName}} {{student.lastName}}</td>
+		<td>{{pickupName}}</td>
+		<td>{{student.studentId}}</td>
+		<td>{{student.schoolName}}</td>
+		<td>{{student.grade}}</td>
+		<td>{{formattedCheckInTime}}</td>
+		<td>{{formattedCheckOutTime}}</td>
+		<td> 
+			<a class="checkin-log-edit" data-id="{{id}}" data-checkin="{{formattedCheckInTime}}" data-checkout="{{formattedCheckOutTime}}"> <i class="fas fa-user-edit"></i></a> 
+		</td>
+	</tr>
+</script>
+
+<script id="tempClearCheckinLogModal">
+	<div class="modal" id="clearCheckinLogModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <h5 class="modal-title">Clear Checkin Logs?</h5>
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="modal-body">
+		    	<p>Are you sure you want to erase all the logs for {{formattedDate}}?</p>
+		    	<p>Type 'CLEAR' in the box below to confirm.</p>
+		    	<form>
+			    	<div class="form-group">
+						<label for="contactValue{{formId}}">Confirm Clear</label>
+						<input type="text" class="form-control confirmation" name="confirmation" placeholder="Type CLEAR" > 
+					</div>
+		      	</form>
+		    </div>
+		    <div class="modal-footer">
+		   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      	<button id="modal-checkin-clear-btn" type="button" class="btn btn-primary">Confirm Clear</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>
+
+
+<script id="tempEditCheckinLogModal">
+	<div class="modal" id="editCheckinLogModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		      <h5 class="modal-title">Student Checkin Log</h5>
+		      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="modal-body">
+		    	<form>
+	    			<table class="table">
+		    			<tr>
+		    				<th>Student</th>
+		    				<th>Check In Time</th>
+		    				<th>Check Out Time</th>
+	    				<tr>
+			      		<tr>
+				      		<td>
+				      			Original
+				      		</td>
+				      		<td>
+				      			{{defaultCheckInTime}}
+				      		</td>
+				      		<td>
+				      			{{defaultCheckOutTime}}
+				      		</td>
+				      	</tr>
+				      	<tr>
+			      			<td>
+				      			{{studentName}}
+				      		</td>
+				      		<td>
+				      			<input type='text' name="checkinTime" class='form-control input-sm checkin-time time-range start' value='' data-mask/>
+				      		</td>
+				      		<td>
+				      			<input type='text' name="checkoutTime" class='form-control input-sm checkin-time time-range end' value='' data-mask/>
+				      		</td>
+			      		</tr>
+			      	</table/>
+			      	<input type="hidden" name="id" value="{{id}}"/>
+		      	</form>
+		    </div>
+		    <div class="modal-footer">
+		   		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		      	<button id="modal-edit-checkin-log-btn" type="button" class="btn btn-primary">Update Checkin Log</button>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>
+
+
+
+<script id="tempStudentCheckinLogModal">
+	<div class="modal" id="checkinLedgerModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-xl" role="document">
+		  <div class="modal-content">
+		    <div class="modal-header">
+		    	<div class="col-xs-6">
+		    		<h5 class="modal-title">Student Checkin Ledger</h5>
+		      	</div>
+		      	<div class="col-xs-6">
+			      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <span aria-hidden="true">&times;</span>
+			      </button>
+			      <a id="print-student-checkin-ledger" class="float-right" style="padding: 7px;"><i class="fas fa-print"></i> Print</a>
+		      	</div>
+		    </div>
+		    {{#allowEdit}}
+			    <div class="container p-0">
+				    <div class="col-xs-12">
+						<a id="add-checkin-log-btn" class="float-right"><i class="fas fa-plus"></i> Add Checkin Entry</a>
+					</div>
+					<div class="edit-checkin-log-wrap col-xs-12 p-0"></div>
+			    </div>
+		    {{/allowEdit}}
+		    <div class="container student-checkin-log-modal-filters p-0">
+			    <div class="col-xs-6 col-md-6 col-lg-3">
+					<label>Family Filter:</label>
+					<select name="familyFilter" data-filter="familyFilter" class="form-control form-control-sm student-checkin-log-modal-filter search-on-change">
+						<option value="All">Family</option>
+						{{#studentOptions}}
+							<option value="{{studentId}}">{{name}}</option>
+						{{/studentOptions}}
+					</select>
+				</div>
+				<div class="col-xs-6 col-md-6 col-lg-3">
+					<!--
+					<label>Trx Type:</label>
+					<select name="transactionType" data-filter="transactionType" class="form-control form-control-sm billing-ledger-modal-filter billing-ledger-date search-on-change">
+						<option value="All">All</option>
+						<option value="Payment">Payment</option>
+						<option value="Credit">Credit</option>
+						<option value="Refund">Refund</option>
+						<option value="Charge">Charge</option>
+					</select>
+					-->
+				</div>
+				
+			    <div class="col-xs-6 col-md-6 col-lg-3">
+					<label>From Date:</label>
+					<input type="text" class="form-control form-control-sm student-checkin-log-modal-filter checkin-ledger-date search-on-change" data-filter="startDate" placeholder="" aria-controls="datatables-basic" value="{{formattedStartDate}}">
+				</div>
+				<div class="col-xs-6 col-md-6 col-lg-3">
+					<label>To Date:</label>
+					<input type="text" class="form-control form-control-sm student-checkin-log-modal-filter checkin-ledger-date search-on-change" data-filter="endDate" placeholder="" aria-controls="datatables-basic" value="{{formattedEndDate}}">
+				</div>
+		    </div>
+		    
+		    <div class="modal-body">
+		    	<div class="container-fluid px-0">
+		    		<div class="vpo">
+		    			
+		    		</div>
+		    		<div id="student-ledger-modal-totals" class="col-xs-6 pl-0">
+			    		{{>tempLedgerTotals}}
+		    		</div>
+	    		</div>
+		    	<div class="container-fluid px-0 ">
+			    	<div class="row dnp">
+						<div class="col-sm-12 col-md-7">
+							<div class="page-changer" id="student-checkin-log-modal-pagination" style="display: none; padding-top: 25px;"></div>
+						</div>
+						<div class="col-sm-12 col-md-5">
+							<label>Result Size </label>
+							<select class="custom-select custom-select-sm form-control form-control-sm student-checkin-log-modal-filter search-on-change" data-filter="size">
+								{{#pageSizeOptions}}
+									<option value="{{val}}" {{selected}}>{{name}}</option>
+								{{/pageSizeOptions}}
+							</select>
+						</div>
+					</div>
+			    	<table id="student-billing-table" class="table table-striped dataTable dtr-inline" style="width: 100%;" role="grid" aria-describedby="datatables-basic_info">
+						<thead>
+							<tr role="row">
+								<th>Student</th>
+								<th>Pickup Name</th>
+								<th>Check In Time</th>
+								<th>Check Out Time</th>
+								{{#allowDelete}}
+									<th class="d-print-none">Edit/Delete</th>
+								{{/allowDelete}}
+							</tr>
+						</thead>
+						<tbody>	
+		    				{{>tempLedgerTableBody}}
+						</tbody>
+					</table>
+		    	</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</script>
+
+<script id="tempLedgerTotals">
+	{{#hasFamilyAccount}}
+		<p>	
+			<b>Family Total Check Ins: </b> {{familyCheckinCount}} 
+			{{#studentAccounts}}
+				</br> 
+				<b> {{person.firstName}} {{person.lastName}} Check Ins</b> {{checkinCount}}
+			{{/studentAccounts}}
+		</p>
+	{{/hasFamilyAccount}}
+	{{^hasFamilyAccount}}
+		{{#studentAccounts}}
+			<p> <b>{{person.firstName}} {{person.lastName}} Check Ins: </b> {{checkinCount}} </p>
+		{{/studentAccounts}}
+	{{/hasFamilyAccount}}
+</script>
+
+<script id="tempLedgerTableBody">
+	{{#checkins}}
+		{{>tempLedgerTableRow}}
+	{{/checkins}}
+</script>
+
+<script id="tempLedgerTableRow">
+	<tr role="row" class="odd manual-checkin-ledger-row" data-id="{{id}}">
+		<td>{{studentName}}</td>
+		<td>{{pickupName}}</td>
+		<td>{{formattedCheckInTime}}</td>
+		<td>{{formattedCheckOutTime}}</td>
+		{{#allowDelete}}
+			<td class="d-print-none">
+				<a class="checkin-ledger-edit d-print-none" data-id="{{id}}" style="margin-right: 10px;"> <i class="far fa-edit"></i></a>
+				<a class="checkin-ledger-remove d-print-none" data-id="{{id}}"> <i class="fas fa-trash-alt"></i></a>
+			</td>
+		{{/allowDelete}}
+	</tr>
+</script>
+
+
+<script id="tempEditManualCheckin">
+	<div class="edit-manual-checkin col-xs-12 px-0">
+		<div class="container col-xs-12 p-0">
+			<form id="edit-manual-checkin-form">
+				<div class="container col-xs-12 p-0">
+					{{^isEdit}}
+						<div class="form-group col-xs-12 col-sm-6 ">
+							<label for="transactionType">Post to Account</label>
+							<select name="studentId" class="form-control">
+								{{#students}}
+									<option value="{{studentId}}" {{selected}}>{{name}}</option>
+								{{/students}}
+							</select>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6">
+							<label for="checkinRecordType">Type</label>
+							<select name="checkinRecordType" class="form-control checkinRecordType-select">
+								<option value="Afterschool">Afterschool</option>
+								<option value="Morning">Morning</option>
+							</select>
+						</div>
+						
+					{{/isEdit}}
+					{{#isEdit}}
+						<input type="hidden" name="id" value="{{id}}"/>
+						<input type="hidden" name="studentId" value="{{studentId}}"/>
+						<input type="hidden" name="checkinRecordType" value="{{checkinRecordType}}"/>
+						<input type="hidden" name="removed" value="{{removed}}"/>
+					{{/isEdit}}
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="checkinDate">Checkin Date</label>
+						<input name="checkinDate" type="text" class="form-control manual-checkin-date checkinDate" value="{{checkinDate}}" {{#fn.preventAutocomplete}}autocomplete="off"{{/fn.preventAutocomplete}}{{^fn.preventAutocomplete}}autocomplete="new-password"{{/fn.preventAutocomplete}}>
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="checkinTime">Checkin Time</label>
+						<input name="checkinTime" type="text" class="form-control checkinTime" value="{{checkinTime}}" placeholder="hh:mm a" >
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="checkoutDate">Checkout Date</label>
+						<input name="checkoutDate" type="text" class="form-control manual-checkin-date checkoutDate" value="{{checkoutDate}}" {{#fn.preventAutocomplete}}autocomplete="off"{{/fn.preventAutocomplete}}{{^fn.preventAutocomplete}}autocomplete="new-password"{{/fn.preventAutocomplete}}>
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<label for="checkoutTime">Checkout Time</label>
+						<input name="checkoutTime" type="text" class="form-control checkoutTime" value="{{checkoutTime}}" placeholder="hh:mm a">
+					</div>
+					<div class="form-group col-xs-12 col-sm-6">
+						<input type="checkbox" id="updateLedger" name="updateLedger:boolean" value="true" checked>
+					  	<label for="updateLedger"> Update Billing Amounts</label>
+					</div>
+					
+				</div>
+				<div class="container col-xs-12 p-0">
+					<div class="form-group col-xs-12">
+						<label for="pickupName">Pickup Name</label>
+						<input type="text" class="form-control" name="pickupName" placeholder="Pickup Name" value="{{pickupName}}"> 
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<div class="col-xs-12 py-0 text-right">
+			<button type="button" class="cancel-manual-checkin-btn btn btn-default">Cancel</button>
+			<button type="button" class="save-manual-checkin-btn btn btn-primary">Post To Account</button>
+		</div>
+	</div>
+
+</script>
